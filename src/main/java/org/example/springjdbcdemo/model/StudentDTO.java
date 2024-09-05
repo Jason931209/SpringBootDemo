@@ -2,7 +2,7 @@ package org.example.springjdbcdemo.model;
 
 public record StudentDTO(
 
-    String firstName,
+    String name,
     int marks
 ) {
 }
