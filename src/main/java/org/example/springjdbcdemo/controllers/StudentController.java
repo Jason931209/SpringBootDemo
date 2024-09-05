@@ -2,6 +2,7 @@ package org.example.springjdbcdemo.controllers;
 
 import jakarta.validation.Valid;
 import org.example.springjdbcdemo.model.Student;
+import org.example.springjdbcdemo.model.StudentDTO;
 import org.example.springjdbcdemo.service.StudentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -25,30 +26,30 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping(value = "/getStudents", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/students", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Retrieve all students", description = "Read data from the database for the given id")
     public List<Student> read() {
         return this.studentService.getStudents();
     }
 
-    @GetMapping(value = "/getStudent/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/student/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Retrieve a students data using an ID", description = "Read data from the database")
-    public Student read(
+    public StudentDTO read(
             @PathVariable("id")
             @Parameter(description = "The ID of the data to read", required = true, example = "101")
             long id
     ) {
-        return this.studentService.getStudent(id);
+        return this.studentService.getStudentDTO(id);
     }
 
-    @PostMapping(value = "/addStudents", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/student/add", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Add a student", description = "Store data in the database")
     public ResponseEntity<String> write(@Valid @RequestBody Student request) {
         this.studentService.addStudent(request);
         return ResponseEntity.ok("Student added successfully");
     }
 
-    @GetMapping(value = "/removeStudent/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/student/remove/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Remove a student using an ID", description = "Remove data in the database for the given id")
     public void remove(
             @PathVariable("id")
